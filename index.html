@@ -92,6 +92,9 @@
         }
 
         .cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: var(--bg);
             padding: 0.55rem 1.3rem;
@@ -133,7 +136,10 @@
             gap: 1rem;
         }
 
-        .cta-links a {
+        .cta-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border: 1px solid var(--border);
             padding: 0.65rem 1.5rem;
             border-radius: 999px;
@@ -146,7 +152,7 @@
             backdrop-filter: blur(12px);
         }
 
-        .cta-links a:hover {
+        .cta-outline:hover {
             border-color: var(--accent);
             color: var(--accent);
             transform: translateY(-2px);
@@ -187,22 +193,24 @@
             <div class="brand">
                 <span>Crash Interactive</span>
             </div>
-            <nav>
+            <!-- <nav>
                 <ul>
                     <li><a href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Discord</a></li>
                     <li><a href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==">Mailing List</a></li>
                 </ul>
-            </nav>
+            </nav> -->
             <div class="callouts">
+                <a class="cta-outline" href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==" target="_blank" rel="noreferrer">Join the Mailing List</a>
                 <a class="cta" href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Join Discord</a>
+                
             </div>
         </div>
     </header>
     <main>
         <img class="logo" src="images/logo_white.png" alt="Crash Interactive">
         <div class="cta-links">
-            <a href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Discord Community</a>
-            <a href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==">Join the Mailing List</a>
+            <a class="cta-outline" href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Discord Community</a>
+            <a class="cta-outline" href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==">Join the Mailing List</a>
         </div>
     </main>
 </html>
