@@ -2,44 +2,207 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crash Interactive - Coming Soon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crash Interactive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #050715;
+            --primary: #6c63ff;
+            --accent: #33ffcc;
+            --text: #e8ebff;
+            --text-muted: rgba(232, 235, 255, 0.7);
+            --glass: rgba(5, 7, 21, 0.6);
+            --border: rgba(108, 99, 255, 0.2);
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Zen Dots', sans-serif;
-            background: linear-gradient(45deg, #00c6ff, #0072ff, #00ff99);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-            color: #ffffff;
-            text-align: center;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at top left, rgba(108, 99, 255, 0.3), transparent 45%), radial-gradient(circle at bottom right, rgba(51, 255, 204, 0.2), transparent 50%), var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(18px);
+            background: var(--glass);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            justify-content: space-between;
+            gap: 2rem;
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
             text-transform: uppercase;
+            letter-spacing: 0.12rem;
         }
-        p {
-            font-size: 1.8rem;
-            opacity: 0.9;
+
+        .brand img {
+            height: 48px;
+            width: 48px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text);
+        }
+
+        .callouts {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--bg);
+            padding: 0.55rem 1.3rem;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 0.05rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 20px 40px rgba(14, 18, 54, 0.45);
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem 4rem;
+            position: relative;
+        }
+
+        .logo {
+            max-width: min(60vw, 500px);
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 35px 70px rgba(8, 10, 35, 0.55));
+        }
+
+        .cta-links {
+            position: absolute;
+            bottom: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta-links a {
+            border: 1px solid var(--border);
+            padding: 0.65rem 1.5rem;
+            border-radius: 999px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.04rem;
+            transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            background: rgba(5, 7, 21, 0.45);
+            backdrop-filter: blur(12px);
+        }
+
+        .cta-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 720px) {
+            .nav {
+                padding: 1rem 1.4rem;
+                flex-wrap: wrap;
+            }
+
+            nav ul {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .callouts {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .cta-links {
+                bottom: 1.5rem;
+                padding: 0 1.5rem;
+            }
+
+            .cta-links a {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Crash Interactive</h1>
-    <p>Coming Soon...</p>
-</body>
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <span>Crash Interactive</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Discord</a></li>
+                    <li><a href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==">Mailing List</a></li>
+                </ul>
+            </nav>
+            <div class="callouts">
+                <a class="cta" href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Join Discord</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <img class="logo" src="images/logo_white.png" alt="Crash Interactive">
+        <div class="cta-links">
+            <a href="https://discord.gg/xakvxZvZ6Q" target="_blank" rel="noreferrer">Discord Community</a>
+            <a href="https://9c87a49e.sibforms.com/serve/MUIFADyXr_CKyFTARr8YhhCtcMNioL9blKm9hDZJd0l0OPMuHAYvbXiNs8kbwV_ThFent-aAC1O0iOSy2XiorKP-htNDIod7y5b_4Tp65YkShXB9EbFZ28LQ_xEJev3gO99dCEFXlR8NZrmC2FSX28knxrt4S-cDEdV-hlLcgci6ajs7XgQ5VP0EeWYmbRRoLnvNx9TJ-TbfXf-zLA==">Join the Mailing List</a>
+        </div>
+    </main>
 </html>
