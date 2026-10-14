@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site } from '../data/site';
+import { site, steamLink } from '../data/site';
 import logo from '../../images/logo_white_trimmed.png';
 
 const year = new Date().getFullYear();
@@ -9,7 +9,7 @@ const cols = [
   {
     head: 'Game',
     links: [
-      { label: 'Steam page', href: site.links.steam },
+      { label: 'Steam page', href: steamLink('footer') },
       { label: 'Trailer', href: '#trailer' },
       { label: 'Screenshots', href: '#arenas' },
     ],

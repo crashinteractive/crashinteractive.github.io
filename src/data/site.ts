@@ -30,6 +30,26 @@ export const site = {
   },
 } as const;
 
+/**
+ * Steam store link tagged for Steamworks UTM tracking.
+ *
+ * Steamworks reports traffic AND wishlist conversions broken down by these parameters
+ * (Marketing & Visibility > UTM Analytics), so this answers "how many wishlists did the
+ * site actually produce", and which button produced them. Use a distinct `content` per
+ * placement; everything else stays constant so the rows group cleanly.
+ *
+ * Do not tag the link used in JSON-LD or anywhere a machine reads it as the canonical
+ * store URL. Those should stay clean.
+ */
+export function steamLink(content: 'hero' | 'nav' | 'band' | 'footer' | '404'): string {
+  const url = new URL(site.links.steam);
+  url.searchParams.set('utm_source', site.domain);
+  url.searchParams.set('utm_medium', 'website');
+  url.searchParams.set('utm_campaign', 'site');
+  url.searchParams.set('utm_content', content);
+  return url.href;
+}
+
 export const nav = [
   { label: 'How it plays', href: '#how-it-plays' },
   { label: 'Trailer', href: '#trailer' },

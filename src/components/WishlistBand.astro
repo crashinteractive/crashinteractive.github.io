@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site } from '../data/site';
+import { site, steamLink } from '../data/site';
 import Btn from './Btn.astro';
 import keyart from '../../images/basher_beatdown/Full HD.png';
 ---
@@ -25,7 +25,7 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
       hear the moment it's playable.
     </p>
     <div class="acts">
-      <Btn href={site.links.steam} size="lg">Wishlist on Steam</Btn>
+      <Btn href={steamLink('band')} size="lg">Wishlist on Steam</Btn>
       <Btn href={site.links.discord} variant="ghost" size="lg">Join the Discord</Btn>
       <Btn href={site.links.mailingList} variant="ghost" size="lg">Join the mailing list</Btn>
     </div>

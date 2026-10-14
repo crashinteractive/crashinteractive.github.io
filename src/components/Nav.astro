@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site, nav } from '../data/site';
+import { site, nav, steamLink } from '../data/site';
 import Btn from './Btn.astro';
 /* The trimmed variant. logo_white.png is 1000x1000 with the 830x417 lockup floating in
    transparent padding, so sizing it by height produced a tiny illegible square. */
@@ -22,7 +22,7 @@ import logo from '../../images/logo_white_trimmed.png';
     <div class="acts">
       <Btn href={site.links.mailingList} variant="ghost" class="secondary">Mailing list</Btn>
       <Btn href={site.links.discord} variant="ghost" class="secondary">Discord</Btn>
-      <Btn href={site.links.steam}>Wishlist on Steam</Btn>
+      <Btn href={steamLink('nav')}>Wishlist on Steam</Btn>
     </div>
   </div>
 </nav>

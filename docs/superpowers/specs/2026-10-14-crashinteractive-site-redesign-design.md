@@ -103,16 +103,25 @@ produced an illegible 34px square.
 
 ### Hero
 
-`images/basher_beatdown/Library Hero.png` full-bleed, `object-fit: cover`, min-height 88vh
-(70vh below 900px, since the source is 3840x1240 and crops hard on tall viewports).
+`images/basher_beatdown/Full HD No logo.png` (2464x1412) full-bleed, `object-fit: cover`,
+`object-position: 62% 42%`, min-height 88vh and 72vh below 900px.
 
 Two stacked gradients darken it: one left-to-right so type sits on near-black while the
 right side stays vivid, one bottom-up blending into the page background.
 
-Over it: Basher Beatdown logo (max 420px), the tagline, two buttons, and a platform line.
+Over it: Basher Beatdown logo (max 440px), the tagline, two buttons, and a platform line.
 
-`Library Hero.png` is used rather than `Full HD.png` because it has no logo baked in,
-which would otherwise collide with the overlaid logo.
+**The art must not have the logo baked in.** Both alternatives were tried and rejected:
+
+- `Library Hero.png` (3840x1240) works but is a narrow letterbox that loses most of the
+  scene on tall viewports.
+- `Full HD.png` has the logo painted into the top left. The scrim that makes the tagline
+  readable sits over that corner and flattens the logo to grey. Reshaping the scrim to
+  darken from the bottom fixed the brightness but left the logo unccroppable and at risk
+  of being cut off entirely on narrow screens.
+
+Keeping the logo as a real element above the scrim means it is always full brightness,
+sizable per breakpoint, and never croppable, while the art behind it can crop freely.
 
 ### Trailer
 

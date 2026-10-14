@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site } from '../data/site';
+import { site, steamLink } from '../data/site';
 import Btn from './Btn.astro';
 
 /* 2464x1412 key art with no logo baked in, so the game logo below is a real element:
@@ -37,7 +37,7 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
     <p class="tag">{site.tagline}</p>
 
     <div class="acts">
-      <Btn href={site.links.steam} size="lg">Wishlist on Steam</Btn>
+      <Btn href={steamLink('hero')} size="lg">Wishlist on Steam</Btn>
       <Btn href="#trailer" variant="ghost" size="lg">Watch the trailer</Btn>
     </div>
 

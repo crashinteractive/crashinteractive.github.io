@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, steamLink } from '../data/site';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Btn from '../components/Btn.astro';
+---
+
+<Base
+  title={`Page not found — ${site.studio}`}
+  description="That page does not exist."
+>
+  <Nav />
+  <main class="lost">
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>Fed to the beast</h1>
+      <p class="say">
+        That page is not here. Either it never existed, or something ate it.
+      </p>
+      <div class="acts">
+        <Btn href="/" size="lg">Back to the game</Btn>
+        <Btn href={steamLink('404')} variant="ghost" size="lg">Wishlist on Steam</Btn>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .lost {
+    display: flex;
+    align-items: center;
+    min-height: 68vh;
+    padding-block: 90px;
+  }
+  h1 {
+    font-size: clamp(38px, 6vw, 72px);
+    margin: 16px 0 18px;
+  }
+  .say {
+    color: var(--mut);
+    font-size: 17.5px;
+    line-height: 1.6;
+    max-width: 44ch;
+    margin: 0 0 36px;
+  }
+  .acts {
+    display: flex;
+    gap: 13px;
+    flex-wrap: wrap;
+  }
+</style>

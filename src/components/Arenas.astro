@@ -381,9 +381,31 @@ const full = await Promise.all(
 
     document.addEventListener('keydown', (e) => {
       if (lb.hidden) return;
+
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') step(1);
       if (e.key === 'ArrowLeft') step(-1);
+
+      // Trap Tab inside the dialog. Without this, focus walks out into the page
+      // behind the overlay, which is a real problem for keyboard and screen reader use.
+      if (e.key === 'Tab') {
+        const focusable = Array.from(
+          lb.querySelectorAll<HTMLElement>('button:not([disabled])')
+        ).filter((el) => el.offsetParent !== null);
+        if (!focusable.length) return;
+
+        const first = focusable[0]!;
+        const last = focusable[focusable.length - 1]!;
+        const active = document.activeElement;
+
+        if (e.shiftKey && (active === first || !lb.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (active === last || !lb.contains(active))) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
   }
 </script>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hand-maintained. The site has one real page, so this is not worth a build step yet.
+  If you add pages (press kit, devlog), either add them here or install @astrojs/sitemap
+  and let it generate this file instead.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://crashinteractive.dev/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

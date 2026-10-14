@@ -20,7 +20,9 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
       code on every page load and sets tracking cookies before anyone asks to watch.
       This loads one image we already own, and only swaps in the player on click.
     -->
-    <div class="trailer" data-trailer data-id={site.youtubeId}>
+    <!-- The whole tile is the button, not just the round play control. People click the
+         thumbnail, which previously did nothing. -->
+    <button type="button" class="trailer" data-trailer data-id={site.youtubeId}>
       <Image
         src={keyart}
         alt=""
@@ -29,11 +31,9 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
         loading="lazy"
         aria-hidden="true"
       />
-      <button type="button" class="play">
-        <span class="sr-only">Play the {site.game} trailer</span>
-        <span class="tri" aria-hidden="true"></span>
-      </button>
-    </div>
+      <span class="play" aria-hidden="true"><span class="tri"></span></span>
+      <span class="sr-only">Play the {site.game} trailer</span>
+    </button>
 
     <p class="fallback">
       {/* explicit space: compressHTML strips the newline between text and the link */}
@@ -51,11 +51,17 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
 
   .trailer {
     position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid var(--line);
     aspect-ratio: 16 / 9;
     background: #000;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
   }
 
   .trailer :global(img) {
@@ -88,14 +94,14 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
     height: 84px;
     border-radius: 50%;
     background: var(--cy);
-    border: 0;
-    cursor: pointer;
     display: grid;
     place-items: center;
     transition: transform 0.25s ease;
     box-shadow: 0 14px 44px rgba(46, 232, 242, 0.4);
+    pointer-events: none;
   }
-  .trailer:hover .play {
+  .trailer:hover .play,
+  .trailer:focus-visible .play {
     transform: scale(1.1);
   }
   .tri {
@@ -133,10 +139,7 @@ import keyart from '../../images/basher_beatdown/Full HD.png';
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-trailer]').forEach((box) => {
-    const btn = box.querySelector('button');
-    if (!btn) return;
-
-    btn.addEventListener('click', () => {
+    box.addEventListener('click', () => {
       const id = box.dataset.id;
       const frame = document.createElement('iframe');
       frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
