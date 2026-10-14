@@ -107,6 +107,10 @@ const full = await Promise.all(
 
   .arena :global(img) {
     width: 100%;
+    /* Astro emits width/height attributes to prevent layout shift. Those are
+       presentational hints, so without height:auto the image renders at its full
+       intrinsic 1080px height and aspect-ratio is ignored. */
+    height: auto;
     aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;

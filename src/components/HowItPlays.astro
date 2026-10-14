@@ -56,13 +56,15 @@ const specs = [
 
       <div class="vidbox">
         <AlphaBadge />
+        <!-- preload="none" keeps 1MB off the initial load. An IntersectionObserver
+             starts it when it scrolls into view, which also sidesteps Chrome refusing
+             to autoplay a video it has not buffered. -->
         <video
           src="/video_sample.mp4"
-          autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="none"
           aria-hidden="true"
           tabindex="-1"></video>
       </div>
@@ -99,13 +101,14 @@ const specs = [
 <style>
   .rule {
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
+    /* 2/5 text, 3/5 clip */
+    grid-template-columns: 2fr 3fr;
     gap: 46px;
     align-items: center;
   }
 
   .stmt {
-    font-size: clamp(34px, 5vw, 62px);
+    font-size: clamp(34px, 5vw, 50px);
     line-height: 0.94;
     letter-spacing: -0.035em;
     margin: 22px 0 0;
@@ -242,11 +245,24 @@ const specs = [
 </style>
 
 <script>
-  // autoplay+loop ignores prefers-reduced-motion, so pause it explicitly
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('video').forEach((v) => {
-      v.autoplay = false;
-      v.pause();
-    });
+  const clip = document.querySelector<HTMLVideoElement>('.vidbox video');
+
+  if (clip && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            clip.preload = 'auto';
+            clip.play().catch(() => {
+              /* a browser that still refuses just shows the first frame */
+            });
+          } else {
+            clip.pause();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(clip);
   }
 </script>

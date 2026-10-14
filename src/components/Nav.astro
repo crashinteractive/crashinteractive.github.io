@@ -2,15 +2,15 @@
 import { Image } from 'astro:assets';
 import { site, nav } from '../data/site';
 import Btn from './Btn.astro';
-import logo from '../../images/logo_white.png';
+/* The trimmed variant. logo_white.png is 1000x1000 with the 830x417 lockup floating in
+   transparent padding, so sizing it by height produced a tiny illegible square. */
+import logo from '../../images/logo_white_trimmed.png';
 ---
-
-<div class="ribbon">Coming soon to Steam. Wishlist it and you'll know when it's out.</div>
 
 <nav class="nav" aria-label="Main">
   <div class="wrap bar">
     <a class="brand" href="#top">
-      <Image src={logo} alt={`${site.studio} home`} width={150} densities={[1, 2]} loading="eager" />
+      <Image src={logo} alt={`${site.studio} home`} width={200} densities={[1, 2]} loading="eager" />
     </a>
 
     <ul class="links">
@@ -19,22 +19,15 @@ import logo from '../../images/logo_white.png';
       ))}
     </ul>
 
-    <Btn href={site.links.steam}>Wishlist on Steam</Btn>
+    <div class="acts">
+      <Btn href={site.links.mailingList} variant="ghost" class="secondary">Mailing list</Btn>
+      <Btn href={site.links.discord} variant="ghost" class="secondary">Discord</Btn>
+      <Btn href={site.links.steam}>Wishlist on Steam</Btn>
+    </div>
   </div>
 </nav>
 
 <style>
-  .ribbon {
-    background: var(--cy);
-    color: #04060a;
-    text-align: center;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 9px 16px;
-  }
-
   .nav {
     position: sticky;
     top: 0;
@@ -57,9 +50,16 @@ import logo from '../../images/logo_white.png';
     flex: none;
   }
   .brand :global(img) {
-    height: 34px;
+    height: 30px;
     width: auto;
     display: block;
+  }
+
+  .acts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
   }
 
   .links {
@@ -80,19 +80,16 @@ import logo from '../../images/logo_white.png';
     color: var(--tx);
   }
 
-  /* Below 900px the links collapse. The Wishlist button never hides, which is the
-     whole reason the nav is sticky. */
+  /* Below 900px the links and the Discord button collapse. The Wishlist button never
+     hides, which is the whole reason the nav is sticky. Both are still in the footer. */
   @media (max-width: 900px) {
-    .links {
+    .links,
+    .acts :global(.secondary) {
       display: none;
     }
     .bar {
       justify-content: space-between;
       gap: 14px;
-    }
-    .ribbon {
-      font-size: 10.5px;
-      letter-spacing: 0.06em;
     }
   }
 </style>

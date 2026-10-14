@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { site } from '../data/site';
-import logo from '../../images/logo_white.png';
+import logo from '../../images/logo_white_trimmed.png';
 
 const year = new Date().getFullYear();
 
@@ -27,6 +27,7 @@ const cols = [
     links: [
       { label: 'GitHub', href: site.links.github },
       { label: 'itch.io', href: site.links.itch },
+      { label: 'Contact', href: `mailto:${site.email}` },
     ],
   },
 ];
@@ -36,7 +37,7 @@ const cols = [
   <div class="wrap">
     <div class="top">
       <div class="brand">
-        <Image src={logo} alt={site.studio} width={300} densities={[1, 2]} loading="lazy" />
+        <Image src={logo} alt={site.studio} width={260} densities={[1, 2]} loading="lazy" />
         <p>An independent game studio in the Netherlands.</p>
       </div>
 
@@ -67,7 +68,7 @@ const cols = [
 
     <div class="bot">
       <span>&copy; {year} {site.studio}. All rights reserved.</span>
-      <span>Made in the Netherlands</span>
+      <span>Made in the Netherlands <span aria-hidden="true">🐰</span></span>
     </div>
   </div>
 </footer>

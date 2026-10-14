@@ -14,6 +14,7 @@ export const site = {
   platforms: 'Windows and macOS',
 
   youtubeId: 'NCbrJxm6Jpk',
+  email: 'contact@crashinteractive.dev',
 
   links: {
     steam: 'https://store.steampowered.com/app/617920/Basher_Beatdown/',

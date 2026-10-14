@@ -64,9 +64,8 @@ Cost accepted: Node and npm are now required to build, and deployment moves from
 
 Top to bottom:
 
-1. **Announcement ribbon** - cyan strip, "Coming soon to Steam."
-2. **Sticky nav** - studio logo, section links, persistent Wishlist button.
-3. **Hero** - full-bleed key art, game logo, tagline, Wishlist + Watch trailer.
+1. **Sticky nav** - studio wordmark, section links, Discord and Wishlist buttons.
+2. **Hero** - full-bleed key art, game logo, tagline, Wishlist + Watch trailer.
 4. **How it plays** - statement + looping clip, then the spec slab.
 5. **Trailer** - click-to-load YouTube facade.
 6. **Arenas** - 2x2 grid, lightbox, "more under wraps" note.
@@ -89,12 +88,18 @@ reads as repetitive once built, swapping sections 4 and 5 is a block move.
 
 ## Section detail
 
-### Ribbon and nav
+### Nav
 
-Ribbon is a flat cyan bar, dark text, one sentence. Nav is sticky with a blurred dark
-background, 70px tall, studio logo left, links right, Wishlist button far right. Links
-hidden below 900px; the Wishlist button never hides. That button is the reason the nav
-is sticky at all.
+Sticky, blurred dark background, 70px tall. Studio wordmark left, section links right,
+then a ghost Discord button and the solid Wishlist button. Links and Discord hide below
+900px; the Wishlist button never hides. That button is the reason the nav is sticky at all.
+
+An announcement ribbon above the nav was built and then cut. It said the same thing the
+Wishlist button already says, in a louder way.
+
+The wordmark uses `logo_white_trimmed.png`, not `logo_white.png`. The original is
+1000x1000 with the 830x417 lockup floating in transparent padding, so sizing it by height
+produced an illegible 34px square.
 
 ### Hero
 
@@ -143,8 +148,8 @@ readable at a glance.
 
 Two parts, deliberately one section.
 
-**Top:** a 1.25fr / 1fr split. Left is the statement, `Archivo Black`, both lines the same
-size, clamped `clamp(34px, 5vw, 62px)`, line-height 0.94:
+**Top:** a 2fr / 3fr split, so the clip gets the larger share. Left is the statement,
+`Archivo Black`, both lines the same size, `clamp(34px, 5vw, 50px)`, line-height 0.94:
 
 > ~~Knock them out.~~
 > **Feed them to the _beast_.**
@@ -152,9 +157,15 @@ size, clamped `clamp(34px, 5vw, 62px)`, line-height 0.94:
 Strikethrough is native CSS `line-through` in cyan, so it survives a wrap at any size.
 "beast" is cyan. Below it, two short paragraphs.
 
-Right is `video_sample.mp4`, autoplay, muted, loop, playsinline, 16:9, carrying the same
-**"Alpha gameplay"** badge as the arena tiles. It is the only moving thing on the page,
-and it proves the claim sitting next to it.
+Right is `video_sample.mp4`, muted, loop, playsinline, 16:9, carrying the **"Alpha
+gameplay"** badge. It is the only moving thing on the page, and it proves the claim sitting
+next to it.
+
+It uses `preload="none"` plus an IntersectionObserver that sets `preload="auto"` and calls
+`play()` at 25% visibility, pausing when it scrolls away. A plain `autoplay` attribute with
+`preload="metadata"` does not work: Chrome will not autoplay a video it has not buffered,
+so the clip sat paused on a black box. Loading on view also keeps 1MB off the initial page
+load.
 
 **Bottom:** one framed slab, single border, single radius, dividers drawn as 1px hairline
 grid gaps:
@@ -168,11 +179,21 @@ block its own border, background and spacing, which read as three widgets stitch
 ### Wishlist band
 
 Key art at 30% opacity under a dark gradient. Eyebrow, large heading, one sentence, then
-Wishlist and Discord buttons. The second and final wishlist ask.
+Wishlist, Discord and mailing list buttons. The second and final wishlist ask, and the one
+place all three calls to action sit together.
 
 ### Studio
 
-300px logo panel beside the text. Heading: "Who's making this". Covers Crash Interactive
+A 340px portrait of Peter at his desk, 3:4, with a caption block over the bottom reading
+his name and "Owner and developer". Chosen over the studio logo: a face is better than a
+mark for a "who's making this" section, and the Basher Beatdown banner visible behind him
+ties the person to the game.
+
+Cropped to `profile_crop.jpg` from the original `profile.jpg`, dropping the ceiling and the
+desk edge so he fills more of the frame while the banner stays readable. Original retained
+for press.
+
+Heading: "Who's making this". Covers Crash Interactive
 as Peter Klooster's one person studio in the Netherlands, notes that *konijn* is Dutch for
 rabbit, and tells the GOAP story: bots built for Basher Beatdown grew into an open source
 Unity package with 1.8k GitHub stars, free on the Asset Store.
@@ -271,7 +292,19 @@ Astro's `<Image>` handles this at build time:
   `fetchpriority="high"`.
 - Originals stay untouched in `images/basher_beatdown/` and are imported from there, so
   there is one copy of each asset and the Steam capsule names are preserved.
-- The clip is `preload="metadata"` so it does not pull 1MB before scrolling into view.
+- The clip is `preload="none"` and loads on view, so it does not pull 1MB up front.
+
+**Astro emits `width`/`height` attributes** on every image to prevent layout shift. Those
+are presentational hints, so any image also relying on `aspect-ratio` must set
+`height: auto` or it renders at full intrinsic height. This bit the arena tiles, which
+rendered 547x1080 instead of 547x308 until `height: auto` was added.
+
+`image.responsiveStyles` is off. It only styles images using the `layout` prop, which this
+site does not use, so it would ship ~1KB of CSS matching nothing.
+
+Two derived assets are committed alongside the originals:
+- `logo_white_trimmed.png` and `logo_trimmed.png`, transparent padding removed.
+- `profile_crop.jpg`, the studio portrait cropped.
 
 ## Accessibility
 

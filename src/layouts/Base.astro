@@ -4,7 +4,7 @@ import { site } from '../data/site';
 import '../styles/global.css';
 
 import shareSrc from '../../images/basher_beatdown/Main Capsule.png';
-import favSrc from '../../images/logo.png';
+import favSrc from '../../images/logo_trimmed.png';
 
 interface Props {
   title: string;
@@ -32,8 +32,18 @@ const jsonLd = {
   playMode: ['SinglePlayer', 'MultiPlayer', 'CoOp'],
   numberOfPlayers: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 4 },
   trailer: { '@type': 'VideoObject', name: `${site.game} trailer`, url: site.links.youtube },
-  author: { '@type': 'Organization', name: site.studio, url: `https://${site.domain}` },
-  publisher: { '@type': 'Organization', name: site.studio, url: `https://${site.domain}` },
+  author: {
+    '@type': 'Organization',
+    name: site.studio,
+    url: `https://${site.domain}`,
+    email: site.email,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: site.studio,
+    url: `https://${site.domain}`,
+    email: site.email,
+  },
 };
 ---
 
