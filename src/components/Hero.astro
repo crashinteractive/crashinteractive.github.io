@@ -3,9 +3,10 @@ import { Image } from 'astro:assets';
 import { site } from '../data/site';
 import Btn from './Btn.astro';
 
-/* Library Hero is used rather than Full HD because it has no logo baked into it,
-   which would collide with the game logo overlaid below. */
-import art from '../../images/basher_beatdown/Library Hero.png';
+/* 2464x1412 key art with no logo baked in, so the game logo below is a real element:
+   it can be sized per breakpoint and always sits above the scrim at full brightness.
+   'Full HD.png' has the logo painted into the top left, which the scrim dulls to grey. */
+import art from '../../images/basher_beatdown/Full HD No logo.png';
 import gameLogo from '../../images/basher_beatdown/Logo.png';
 ---
 
@@ -14,7 +15,7 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
     class="art"
     src={art}
     alt=""
-    widths={[900, 1400, 1920, 2560, 3840]}
+    widths={[900, 1400, 1920, 2464]}
     sizes="100vw"
     loading="eager"
     fetchpriority="high"
@@ -28,8 +29,8 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
       class="logo"
       src={gameLogo}
       alt={site.game}
-      widths={[320, 420, 840]}
-      sizes="(max-width: 900px) 72vw, 420px"
+      widths={[320, 440, 880]}
+      sizes="(max-width: 900px) 74vw, 440px"
       loading="eager"
     />
 
@@ -59,22 +60,24 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 60% center;
+    /* the brawl sits right of centre; bias the crop so it survives narrow viewports */
+    object-position: 62% 42%;
   }
 
-  /* Two stacked gradients: one darkens the left so type sits on near-black while the
-     right stays vivid, one blends the bottom into the page. */
+  /* Darkens the left so the logo and type sit on near-black while the right stays
+     vivid, then blends the bottom into the page. The logo is an element above this,
+     so it keeps its full brightness. */
   .scrim {
     position: absolute;
     inset: 0;
     background:
       linear-gradient(
         90deg,
-        rgba(6, 7, 11, 0.95) 0%,
-        rgba(6, 7, 11, 0.72) 38%,
-        rgba(6, 7, 11, 0.12) 78%
+        rgba(6, 7, 11, 0.93) 0%,
+        rgba(6, 7, 11, 0.68) 36%,
+        rgba(6, 7, 11, 0.1) 76%
       ),
-      linear-gradient(0deg, var(--ink) 2%, transparent 48%);
+      linear-gradient(0deg, var(--ink) 2%, transparent 52%);
   }
 
   .inner {
@@ -84,7 +87,7 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
   }
 
   .inner :global(.logo) {
-    width: min(420px, 70%);
+    width: min(440px, 72%);
     height: auto;
     display: block;
     margin-bottom: 28px;
@@ -113,17 +116,15 @@ import gameLogo from '../../images/basher_beatdown/Logo.png';
     letter-spacing: 0.06em;
   }
 
-  /* The source art is 3840x1240, so it crops hard on tall viewports. Shorten the
-     hero on small screens rather than cropping to a sliver of the scene. */
   @media (max-width: 900px) {
     .hero {
-      min-height: 70vh;
+      min-height: 72vh;
     }
     .inner {
       padding-block: 80px 56px;
     }
     .inner :global(.logo) {
-      width: 78%;
+      width: 80%;
       margin-bottom: 22px;
     }
     .tag {
