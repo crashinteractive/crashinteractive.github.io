@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import HowItPlays from '../components/HowItPlays.astro';
+import Trailer from '../components/Trailer.astro';
+import Arenas from '../components/Arenas.astro';
+import WishlistBand from '../components/WishlistBand.astro';
+import Studio from '../components/Studio.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base title={`${site.game} — a physics brawler by ${site.studio}`}>
+  <Nav />
+  <main>
+    {/* hook, explain, prove, show breadth, ask */}
+    <Hero />
+    <HowItPlays />
+    <Trailer />
+    <Arenas />
+    <WishlistBand />
+    <Studio />
+  </main>
+  <Footer />
+</Base>

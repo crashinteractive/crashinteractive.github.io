@@ -1,0 +1,80 @@
+---
+interface Props {
+  href: string;
+  variant?: 'solid' | 'ghost';
+  size?: 'md' | 'lg';
+  /** External links get target and rel automatically. */
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'solid',
+  size = 'md',
+  external = href.startsWith('http'),
+  class: cls = '',
+} = Astro.props;
+---
+
+<a
+  class:list={['btn', variant, size, cls]}
+  href={href}
+  {...external ? { target: '_blank', rel: 'noreferrer' } : {}}
+>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-family: Archivo, system-ui, sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 7px;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .solid {
+    background: var(--cy);
+    color: #04060a;
+  }
+  .solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(46, 232, 242, 0.3);
+  }
+
+  .ghost {
+    background: transparent;
+    color: var(--tx);
+    border: 1.5px solid rgba(237, 243, 255, 0.26);
+  }
+  .ghost:hover {
+    border-color: var(--cy);
+    color: var(--cy);
+    transform: translateY(-2px);
+  }
+
+  .md {
+    font-size: 14px;
+    padding: 12px 22px;
+  }
+  .lg {
+    font-size: 16px;
+    padding: 17px 32px;
+  }
+
+  @media (max-width: 480px) {
+    .lg {
+      font-size: 15px;
+      padding: 15px 24px;
+    }
+  }
+</style>

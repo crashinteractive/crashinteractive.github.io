@@ -1,0 +1,252 @@
+---
+import AlphaBadge from './AlphaBadge.astro';
+
+/* Sits above the trailer on purpose: the statement plus the silently autoplaying clip
+   explain the game in about five seconds with no click. A trailer asks for a minute of
+   commitment before the visitor knows what they'd be committing to. */
+
+const steps = [
+  {
+    n: '01',
+    title: 'Grab',
+    body: 'Punch them until they come loose, then get hold of them before they wake up.',
+  },
+  {
+    n: '02',
+    title: 'Carry',
+    body: 'Haul them across the arena while three other people try to take them off you.',
+  },
+  {
+    n: '03',
+    title: 'Feed',
+    body: 'Throw, drop or launch them into the jaws. That is the only thing that counts.',
+  },
+];
+
+const specs = [
+  { k: 'Players', v: '1 to 4' },
+  { k: 'Modes', v: 'Couch, online, or both' },
+  { k: 'Solo', v: 'Bots that fight back' },
+  { k: 'Mutators', v: 'Bend the rules' },
+  { k: 'Platforms', v: 'Windows and macOS' },
+];
+---
+
+<section class="section" id="how-it-plays">
+  <div class="wrap">
+    <div class="rule">
+      <div>
+        <p class="eyebrow">How it plays</p>
+
+        <h2 class="stmt">
+          <span class="kill">Knock them out.</span>
+          <span class="main">Feed them to the <em>beast</em>.</span>
+        </h2>
+
+        <p class="lede">
+          A knockout is worth nothing. The only thing on the scoreboard is what the beast
+          swallows, so every round ends with somebody being dragged across the floor and
+          posted into a mouth.
+        </p>
+        <p class="lede">
+          Punch, grab, drag, throw. All of it is simulated, so no two fights fall apart the
+          same way.
+        </p>
+      </div>
+
+      <div class="vidbox">
+        <AlphaBadge />
+        <video
+          src="/video_sample.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+          tabindex="-1"></video>
+      </div>
+    </div>
+
+    <!-- Steps and specs share one frame so they read as a single object rather than
+         two widgets stacked on top of each other. Dividers are 1px grid gaps. -->
+    <div class="slab">
+      <div class="row r3">
+        {
+          steps.map((s) => (
+            <div class="cell step">
+              <p class="num">{s.n}</p>
+              <h3>{s.title}</h3>
+              <p class="body">{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="row r5">
+        {
+          specs.map((s) => (
+            <div class="cell spec">
+              <p class="k">{s.k}</p>
+              <p class="v">{s.v}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rule {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 46px;
+    align-items: center;
+  }
+
+  .stmt {
+    font-size: clamp(34px, 5vw, 62px);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    margin: 22px 0 0;
+    text-wrap: balance;
+  }
+  .kill {
+    display: block;
+    color: rgba(237, 243, 255, 0.22);
+    /* native line-through rather than a positioned bar, so it survives a wrap
+       and both lines can share the same font size */
+    text-decoration: line-through;
+    text-decoration-color: var(--cy);
+    text-decoration-thickness: 0.062em;
+    margin-bottom: 0.1em;
+  }
+  .main {
+    display: block;
+  }
+  .stmt em {
+    font-style: normal;
+    color: var(--cy);
+  }
+
+  .lede {
+    color: var(--mut);
+    font-size: 16.5px;
+    line-height: 1.72;
+    margin: 30px 0 0;
+    max-width: 48ch;
+  }
+
+  .vidbox {
+    position: relative;
+    border-radius: 13px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+  .vidbox video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .slab {
+    margin-top: 56px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--line); /* shows through the 1px gaps as hairlines */
+    display: grid;
+    gap: 1px;
+  }
+  .row {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+  }
+  .r3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .r5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .cell {
+    background: var(--ink);
+    padding: 38px 34px;
+  }
+
+  .num {
+    font-family: 'Archivo Black', Archivo, sans-serif;
+    font-size: 12.5px;
+    color: var(--cy);
+    letter-spacing: 0.16em;
+    margin: 0 0 15px;
+  }
+  .step h3 {
+    font-size: 27px;
+    margin-bottom: 11px;
+  }
+  .step .body {
+    color: var(--mut);
+    font-size: 15px;
+    line-height: 1.66;
+    margin: 0;
+  }
+
+  .spec {
+    padding: 24px 34px;
+  }
+  .spec .k {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(237, 243, 255, 0.36);
+    margin: 0 0 8px;
+  }
+  .spec .v {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .rule {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+    .slab {
+      margin-top: 42px;
+    }
+    .r3,
+    .r5 {
+      grid-template-columns: 1fr;
+    }
+    .cell {
+      padding: 28px 24px;
+    }
+  }
+
+  /* The clip is the only moving thing on the page. Stop it if motion is unwelcome. */
+  @media (prefers-reduced-motion: reduce) {
+    .vidbox video {
+      display: none;
+    }
+    .vidbox {
+      background: var(--ink2);
+    }
+  }
+</style>
+
+<script>
+  // autoplay+loop ignores prefers-reduced-motion, so pause it explicitly
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video').forEach((v) => {
+      v.autoplay = false;
+      v.pause();
+    });
+  }
+</script>

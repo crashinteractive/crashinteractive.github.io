@@ -1,0 +1,153 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+import logo from '../../images/logo_white.png';
+
+const year = new Date().getFullYear();
+
+const cols = [
+  {
+    head: 'Game',
+    links: [
+      { label: 'Steam page', href: site.links.steam },
+      { label: 'Trailer', href: '#trailer' },
+      { label: 'Screenshots', href: '#arenas' },
+    ],
+  },
+  {
+    head: 'Community',
+    links: [
+      { label: 'Discord', href: site.links.discord },
+      { label: 'Mailing list', href: site.links.mailingList },
+      { label: 'X / Twitter', href: site.links.x },
+    ],
+  },
+  {
+    head: 'Studio',
+    links: [
+      { label: 'GitHub', href: site.links.github },
+      { label: 'itch.io', href: site.links.itch },
+    ],
+  },
+];
+---
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <Image src={logo} alt={site.studio} width={300} densities={[1, 2]} loading="lazy" />
+        <p>An independent game studio in the Netherlands.</p>
+      </div>
+
+      <div class="cols">
+        {
+          cols.map((c) => (
+            <div>
+              <h2>{c.head}</h2>
+              <ul>
+                {c.links.map((l) => (
+                  <li>
+                    <a
+                      href={l.href}
+                      {...l.href.startsWith('http')
+                        ? { target: '_blank', rel: 'noreferrer' }
+                        : {}}
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="bot">
+      <span>&copy; {year} {site.studio}. All rights reserved.</span>
+      <span>Made in the Netherlands</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 62px 0 42px;
+    background: var(--ink2);
+  }
+
+  .top {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .brand :global(img) {
+    height: 38px;
+    width: auto;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .brand p {
+    color: var(--mut);
+    font-size: 13.5px;
+    margin: 0;
+    max-width: 30ch;
+    line-height: 1.6;
+  }
+
+  .cols {
+    display: flex;
+    gap: 70px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .cols h2 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 15px;
+  }
+  .cols ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cols li {
+    margin-bottom: 11px;
+  }
+  .cols a {
+    color: var(--mut);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.18s ease;
+  }
+  .cols a:hover {
+    color: var(--cy);
+  }
+
+  .bot {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 52px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+    color: rgba(237, 243, 255, 0.36);
+    font-size: 12.5px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 900px) {
+    .cols {
+      gap: 40px;
+      margin-left: 0;
+    }
+  }
+</style>

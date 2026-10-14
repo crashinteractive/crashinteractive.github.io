@@ -1,2 +1,10 @@
+# build
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# tooling
 .superpowers/
 .DS_Store

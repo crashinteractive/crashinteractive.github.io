@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import { site, nav } from '../data/site';
+import Btn from './Btn.astro';
+import logo from '../../images/logo_white.png';
+---
+
+<div class="ribbon">Coming soon to Steam. Wishlist it and you'll know when it's out.</div>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <Image src={logo} alt={`${site.studio} home`} width={150} densities={[1, 2]} loading="eager" />
+    </a>
+
+    <ul class="links">
+      {nav.map((n) => (
+        <li><a href={n.href}>{n.label}</a></li>
+      ))}
+    </ul>
+
+    <Btn href={site.links.steam}>Wishlist on Steam</Btn>
+  </div>
+</nav>
+
+<style>
+  .ribbon {
+    background: var(--cy);
+    color: #04060a;
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+  }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(6, 7, 11, 0.82);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    height: 70px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  .brand :global(img) {
+    height: 34px;
+    width: auto;
+    display: block;
+  }
+
+  .links {
+    display: flex;
+    gap: 28px;
+    margin: 0 0 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .links a {
+    color: var(--mut);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.18s ease;
+  }
+  .links a:hover {
+    color: var(--tx);
+  }
+
+  /* Below 900px the links collapse. The Wishlist button never hides, which is the
+     whole reason the nav is sticky. */
+  @media (max-width: 900px) {
+    .links {
+      display: none;
+    }
+    .bar {
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .ribbon {
+      font-size: 10.5px;
+      letter-spacing: 0.06em;
+    }
+  }
+</style>

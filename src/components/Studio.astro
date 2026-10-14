@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import { site } from '../data/site';
+import logo from '../../images/logo_white.png';
+
+const chips = [
+  { label: 'GOAP for Unity', href: site.links.goap },
+  { label: 'Rabbit AI Blackboard', href: site.links.blackboard },
+  { label: 'GitHub', href: site.links.github },
+  { label: 'itch.io', href: site.links.itch },
+];
+---
+
+<section class="section" id="studio">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Studio</p>
+      <h2>Who's making this</h2>
+    </div>
+
+    <div class="grid">
+      <div class="mark">
+        <Image src={logo} alt={site.studio} width={480} densities={[1, 2]} loading="lazy" />
+      </div>
+
+      <div>
+        <p>
+          <strong>{site.studio}</strong> is the one person studio of Peter Klooster, better
+          known as <strong>CrashKonijn</strong>, working out of the Netherlands. Konijn is
+          Dutch for rabbit, which explains the logo.
+        </p>
+        <p>
+          {site.game} needed bots that could hold their own in a physics brawl. That turned
+          out to be a much harder problem than expected. The goal oriented AI system built
+          to solve it grew into an open source Unity package with 1.8k stars on GitHub,
+          free on the Asset Store, now used by thousands of other developers.
+        </p>
+        <p>
+          The bots you'll be throwing into a monster's mouth are where all of that started.
+        </p>
+
+        <ul class="chips">
+          {
+            chips.map((c) => (
+              <li>
+                <a class="chip" href={c.href} target="_blank" rel="noreferrer">
+                  {c.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .mark {
+    background: var(--ink2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 34px;
+    display: grid;
+    place-items: center;
+  }
+  .mark :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  p {
+    color: var(--mut);
+    font-size: 16px;
+    line-height: 1.78;
+    margin: 0 0 20px;
+  }
+  p strong {
+    color: var(--tx);
+    font-weight: 600;
+  }
+
+  .chips {
+    display: flex;
+    gap: 11px;
+    flex-wrap: wrap;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 15px;
+    color: var(--mut);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .chip:hover {
+    border-color: var(--cy);
+    color: var(--cy);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+    .mark {
+      max-width: 260px;
+      padding: 26px;
+    }
+  }
+</style>

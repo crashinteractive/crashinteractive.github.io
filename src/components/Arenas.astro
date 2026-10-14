@@ -1,0 +1,385 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { arenas } from '../data/arenas';
+import AlphaBadge from './AlphaBadge.astro';
+
+/* Pre-generate one large variant per arena for the lightbox, so opening a shot does not
+   serve the raw 1920px JPEG straight from source. */
+const full = await Promise.all(
+  arenas.map((a) => getImage({ src: a.image, width: 1920, format: 'webp' }))
+);
+---
+
+<section class="section" id="arenas">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Arenas</p>
+      <h2>Four arenas revealed so far</h2>
+      <p>
+        Each one is built around whatever is living at the bottom of it. Click a shot to
+        see it full size.
+      </p>
+    </div>
+
+    <ul class="grid">
+      {
+        arenas.map((a, i) => (
+          <li>
+            <button
+              type="button"
+              class="arena"
+              data-shot={i}
+              data-full={full[i]!.src}
+              data-eyebrow={a.eyebrow}
+              data-name={a.name}
+              data-alt={a.alt}
+            >
+              <Image
+                src={a.image}
+                alt={a.alt}
+                widths={[480, 760, 1100]}
+                sizes="(max-width: 900px) 100vw, 550px"
+                loading="lazy"
+              />
+              <span class="ov">
+                <span class="n">{a.eyebrow}</span>
+                <span class="name">{a.name}</span>
+                <span class="blurb">{a.blurb}</span>
+              </span>
+              <span class="exp" aria-hidden="true">⤢</span>
+              <span class="sr-only">Open full size</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="more">
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      More arenas still under wraps.
+    </p>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lb" data-lb hidden>
+  <div class="lb-bg" data-close></div>
+  <button type="button" class="x" data-close><span class="sr-only">Close</span>✕</button>
+  <button type="button" class="ar p" data-prev><span class="sr-only">Previous arena</span>‹</button>
+  <button type="button" class="ar n2" data-next><span class="sr-only">Next arena</span>›</button>
+
+  <figure role="dialog" aria-modal="true" aria-label="Arena screenshot">
+    <div class="shot">
+      <AlphaBadge />
+      <img data-img src="" alt="" />
+    </div>
+    <figcaption>
+      <span class="n" data-cap-eyebrow></span>
+      <span class="name" data-cap-name></span>
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .arena {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+  }
+
+  .arena :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s ease;
+  }
+  .arena:hover :global(img) {
+    transform: scale(1.045);
+  }
+
+  .ov {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    background: linear-gradient(
+      0deg,
+      rgba(6, 7, 11, 0.95) 4%,
+      rgba(6, 7, 11, 0.2) 46%,
+      transparent 72%
+    );
+  }
+  .ov .n {
+    color: var(--cy);
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 9px;
+  }
+  .ov .name {
+    font-family: 'Archivo Black', Archivo, sans-serif;
+    font-size: 25px;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+  .ov .blurb {
+    color: var(--mut);
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 40ch;
+  }
+
+  .exp {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(4, 6, 10, 0.78);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    backdrop-filter: blur(6px);
+  }
+  .arena:hover .exp,
+  .arena:focus-visible .exp {
+    opacity: 1;
+  }
+
+  .more {
+    margin: 26px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--mut);
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  .dots {
+    display: flex;
+    gap: 7px;
+  }
+  .dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(237, 243, 255, 0.18);
+    display: block;
+  }
+
+  /* lightbox */
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 52px;
+  }
+  .lb[hidden] {
+    display: none;
+  }
+  .lb-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 4, 7, 0.95);
+    backdrop-filter: blur(8px);
+    border: 0;
+  }
+
+  .lb figure {
+    position: relative;
+    margin: 0;
+    max-width: 1300px;
+    width: 100%;
+  }
+  .shot {
+    position: relative;
+    border-radius: 11px;
+    overflow: hidden;
+  }
+  .shot img {
+    width: 100%;
+    height: auto;
+    max-height: 74vh;
+    object-fit: contain;
+    display: block;
+  }
+  .lb figcaption {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .lb figcaption .n {
+    display: block;
+    color: var(--cy);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .lb figcaption .name {
+    display: block;
+    font-family: 'Archivo Black', Archivo, sans-serif;
+    font-size: 24px;
+    margin-top: 9px;
+  }
+
+  .x,
+  .ar {
+    position: absolute;
+    background: var(--ink2);
+    border: 1px solid var(--line);
+    color: var(--tx);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    z-index: 2;
+  }
+  .x {
+    top: 26px;
+    right: 30px;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    font-size: 21px;
+  }
+  .ar {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    font-size: 20px;
+  }
+  .ar.p {
+    left: 28px;
+  }
+  .ar.n2 {
+    right: 28px;
+  }
+  .x:hover,
+  .ar:hover {
+    border-color: var(--cy);
+    color: var(--cy);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .ov {
+      padding: 20px;
+    }
+    .ov .name {
+      font-size: 21px;
+    }
+    .lb {
+      padding: 16px;
+    }
+    .x {
+      top: 12px;
+      right: 12px;
+    }
+    .ar.p {
+      left: 8px;
+    }
+    .ar.n2 {
+      right: 8px;
+    }
+  }
+</style>
+
+<script>
+  interface Shot {
+    full: string;
+    eyebrow: string;
+    name: string;
+    alt: string;
+  }
+
+  const lb = document.querySelector<HTMLElement>('[data-lb]');
+  const tiles = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-shot]'));
+  if (lb && tiles.length) {
+    const img = lb.querySelector<HTMLImageElement>('[data-img]')!;
+    const capEyebrow = lb.querySelector<HTMLElement>('[data-cap-eyebrow]')!;
+    const capName = lb.querySelector<HTMLElement>('[data-cap-name]')!;
+
+    const shots: Shot[] = tiles.map((t) => ({
+      full: t.dataset.full!,
+      eyebrow: t.dataset.eyebrow!,
+      name: t.dataset.name!,
+      alt: t.dataset.alt!,
+    }));
+
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const paint = () => {
+      const s = shots[idx]!;
+      img.src = s.full;
+      img.alt = s.alt;
+      capEyebrow.textContent = s.eyebrow;
+      capName.textContent = s.name;
+    };
+
+    const open = (i: number, from: HTMLElement) => {
+      idx = i;
+      opener = from;
+      paint();
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+      lb.querySelector<HTMLButtonElement>('.x')!.focus();
+    };
+
+    const close = () => {
+      lb.hidden = true;
+      document.body.style.overflow = '';
+      opener?.focus();
+    };
+
+    const step = (d: number) => {
+      idx = (idx + d + shots.length) % shots.length;
+      paint();
+    };
+
+    tiles.forEach((t, i) => t.addEventListener('click', () => open(i, t)));
+    lb.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+    lb.querySelector('[data-prev]')!.addEventListener('click', () => step(-1));
+    lb.querySelector('[data-next]')!.addEventListener('click', () => step(1));
+
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    });
+  }
+</script>

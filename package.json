@@ -1,0 +1,23 @@
+{
+  "name": "crashinteractive.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "crashinteractive.dev — Crash Interactive and Basher Beatdown",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crashinteractive/crashinteractive.github.io.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "astro": "^7.3.8",
+    "sharp": "^0.35.5"
+  }
+}
