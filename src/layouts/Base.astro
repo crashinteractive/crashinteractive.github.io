@@ -3,7 +3,6 @@ import { getImage } from 'astro:assets';
 import { site } from '../data/site';
 import '../styles/global.css';
 
-import shareSrc from '../../images/basher_beatdown/Main Capsule.png';
 import favSrc from '../../images/logo_trimmed.png';
 
 interface Props {
@@ -13,11 +12,15 @@ interface Props {
 
 const { title, description = site.description } = Astro.props;
 
-const share = await getImage({ src: shareSrc, width: 1200, format: 'jpeg' });
 const fav = await getImage({ src: favSrc, width: 64, format: 'png' });
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const shareUrl = new URL(share.src, Astro.site);
+
+/* Served from public/ at a stable path rather than through astro:assets. Two reasons:
+   a hashed filename changes on every build, which invalidates every social cache that
+   already stored the old URL; and the source is "Main Capsule.png", whose space becomes
+   %20 in the URL, which some link scrapers mishandle. 1200x630 is the OG standard. */
+const shareUrl = new URL('/share.jpg', Astro.site);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -65,13 +68,17 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:image" content={shareUrl.href} />
-    <meta property="og:image:width" content={String(share.attributes.width ?? 1200)} />
-    <meta property="og:image:height" content={String(share.attributes.height ?? 688)} />
+    <meta property="og:image:secure_url" content={shareUrl.href} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.game} key art`} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={shareUrl.href} />
+    <meta name="twitter:image:alt" content={`${site.game} key art`} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
